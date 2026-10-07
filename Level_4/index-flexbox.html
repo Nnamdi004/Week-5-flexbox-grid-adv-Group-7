@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Holy Grail Layout · Flexbox version</title>
+  <link rel="stylesheet" href="flexbox-style.css">
+</head>
+<body>
+  <!-- Collapse state lives in two hidden checkboxes: no JavaScript needed -->
+  <input type="checkbox" id="collapse-left" class="sr-only" aria-controls="sidebar-left">
+  <input type="checkbox" id="collapse-right" class="sr-only" aria-controls="sidebar-right">
+
+  <header class="site-header">
+    <a class="logo" href="#"><span class="logo__mark" aria-hidden="true">◆</span> Layout Lab<span class="logo__mode">Flexbox version</span></a>
+    <details class="user-menu">
+      <summary><span class="avatar" aria-hidden="true">GU</span><span class="user-menu__name">Guest User</span></summary>
+      <ul>
+        <li><a href="#">Profile</a></li>
+        <li><a href="#">Settings</a></li>
+        <li><a href="#">Sign out</a></li>
+      </ul>
+    </details>
+  </header>
+
+  <nav class="site-nav" aria-label="Main">
+    <ul class="site-nav__links">
+      <li><a href="#" aria-current="page">Home</a></li>
+      <li><a href="#">Articles</a></li>
+      <li><a href="#">Gallery</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+    <div class="site-nav__toggles">
+      <label class="toggle-btn" for="collapse-left">Left panel</label>
+      <label class="toggle-btn" for="collapse-right">Right panel</label>
+    </div>
+  </nav>
+
+  <div class="page">
+    <aside class="sidebar sidebar-left" id="sidebar-left" aria-label="Topics">
+      <div class="sidebar__inner">
+        <h2>Topics</h2>
+        <ul>
+          <li><a href="#">Layout basics</a></li>
+          <li><a href="#">Alignment</a></li>
+          <li><a href="#">Responsive design</a></li>
+          <li><a href="#">Custom properties</a></li>
+          <li><a href="#">Accessibility</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <main class="content">
+      <h1>Latest articles</h1>
+      <div class="cards">
+        <article class="card">
+          <div class="card__media"><span class="card__label">Flex</span><span class="badge">New</span></div>
+          <div class="card__body">
+            <h2>Centering things, finally</h2>
+            <p>Two lines of CSS replace a decade of hacks.</p>
+          </div>
+          <div class="card__meta">4 min read</div>
+        </article>
+        <article class="card">
+          <div class="card__media"><span class="card__label">Grid</span><span class="badge">Popular</span></div>
+          <div class="card__body">
+            <h2>Grid areas in plain English</h2>
+            <p>Name the regions of your page, then draw the layout as a picture in your stylesheet. Reordering for mobile becomes a few lines of text.</p>
+          </div>
+          <div class="card__meta">7 min read</div>
+        </article>
+        <article class="card">
+          <div class="card__media"><span class="card__label">Both</span><span class="badge">Tip</span></div>
+          <div class="card__body">
+            <h2>Why gap beat margins</h2>
+            <p>Spacing between siblings, without the last-child exceptions.</p>
+          </div>
+          <div class="card__meta">3 min read</div>
+        </article>
+        <article class="card">
+          <div class="card__media"><span class="card__label">Flex</span><span class="badge">Popular</span></div>
+          <div class="card__body">
+            <h2>When flex-wrap surprises you</h2>
+            <p>Why the last row of cards stretches, and three ways to stop it from happening.</p>
+          </div>
+          <div class="card__meta">6 min read</div>
+        </article>
+        <article class="card">
+          <div class="card__media"><span class="card__label">Grid</span><span class="badge">New</span></div>
+          <div class="card__body">
+            <h2>Subgrid in the wild</h2>
+            <p>Align titles, text and footers across cards in the same row, even when the content lengths are completely different from one card to the next.</p>
+          </div>
+          <div class="card__meta">8 min read</div>
+        </article>
+        <article class="card">
+          <div class="card__media"><span class="card__label">Both</span><span class="badge">Tip</span></div>
+          <div class="card__body">
+            <h2>Container queries 101</h2>
+            <p>Components that respond to their own space, not the viewport.</p>
+          </div>
+          <div class="card__meta">5 min read</div>
+        </article>
+        <article class="card">
+          <div class="card__media"><span class="card__label">Both</span><span class="badge">New</span></div>
+          <div class="card__body">
+            <h2>clamp() for fluid sizing</h2>
+            <p>One declaration that grows with the screen and never goes out of bounds.</p>
+          </div>
+          <div class="card__meta">3 min read</div>
+        </article>
+        <article class="card">
+          <div class="card__media"><span class="card__label">Flex</span><span class="badge">Tip</span></div>
+          <div class="card__body">
+            <h2>Order and accessibility</h2>
+            <p>Visual order can drift away from DOM order. Here is how to keep keyboard and screen reader users on the same page as everyone else.</p>
+          </div>
+          <div class="card__meta">6 min read</div>
+        </article>
+        <article class="card">
+          <div class="card__media"><span class="card__label">Both</span><span class="badge">Popular</span></div>
+          <div class="card__body">
+            <h2>Debugging with DevTools</h2>
+            <p>Overlays, badges and the layout panel.</p>
+          </div>
+          <div class="card__meta">4 min read</div>
+        </article>
+      </div>
+    </main>
+
+    <aside class="sidebar sidebar-right" id="sidebar-right" aria-label="Related">
+      <div class="sidebar__inner">
+        <h2>Related</h2>
+        <ul>
+          <li><a href="#">Holy Grail history</a></li>
+          <li><a href="#">Sticky headers</a></li>
+          <li><a href="#">Card patterns</a></li>
+          <li><a href="#">Browser support</a></li>
+        </ul>
+        <p>Use the panel buttons in the navigation bar to collapse either sidebar.</p>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-col">
+      <h2>Learn</h2>
+      <ul>
+        <li><a href="#">MDN: Flexbox</a></li>
+        <li><a href="#">MDN: Grid</a></li>
+        <li><a href="#">Layout guides</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h2>Project</h2>
+      <ul>
+        <li><a href="#">Repository</a></li>
+        <li><a href="#">Reflection</a></li>
+        <li><a href="#">Assessment criteria</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h2>Community</h2>
+      <ul>
+        <li><a href="#">Study group</a></li>
+        <li><a href="#">Office hours</a></li>
+        <li><a href="#">Feedback</a></li>
+      </ul>
+    </div>
+    <p class="footer-legal">© 2026 Layout Lab · Flexbox vs. Grid learning activity</p>
+  </footer>
+</body>
+</html>

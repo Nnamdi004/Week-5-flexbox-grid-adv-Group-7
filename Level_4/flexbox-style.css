@@ -1,0 +1,339 @@
+/* flexbox-style.css — Level 4 "Holy Grail" layout, built with Flexbox.
+   One self-contained stylesheet: PART 1 is the shared visual theme (identical in
+   both versions), PART 2 is the Flexbox-specific layout.
+   Mobile-first; breakpoints at 600px, 900px and 1200px, plus container queries
+   for the card columns (4 layouts in total). */
+
+/* ==========================================================================
+   PART 1 — THEME (colors, type, component skins; same in both versions)
+   ========================================================================== */
+
+:root {
+  --color-bg: #f3f5fb;
+  --color-surface: #ffffff;
+  --color-ink: #1b2333;
+  --color-muted: #5b6578;
+  --color-brand: #3b5bdb;
+  --color-brand-dark: #25397f;
+  --color-accent: #ffc078;
+  --color-line: #dde2ee;
+  --radius: 0.75rem;
+  --header-h: 3.5rem;
+  --shadow: 0 1px 2px rgb(27 35 51 / 0.08), 0 4px 12px rgb(27 35 51 / 0.06);
+
+  /* layout tokens (overridden per breakpoint below) */
+  --gap: clamp(0.75rem, 2vw, 1.5rem);
+  --sidebar-w: 11rem;            /* overridden per breakpoint */
+  --left-w: var(--sidebar-w);    /* becomes 0px when collapsed */
+  --right-w: var(--sidebar-w);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--color-ink);
+  background: var(--color-bg);
+}
+
+h1, h2, h3 { line-height: 1.25; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; margin: 0; padding: 0; }
+
+/* Visually hidden, still focusable (drives the collapse toggles, no JS) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  height: var(--header-h);
+  padding: 0 1rem;
+  background: var(--color-brand-dark);
+  color: #fff;
+  box-shadow: var(--shadow);
+  z-index: 20;
+}
+.logo { font-weight: 700; font-size: 1.15rem; letter-spacing: 0.02em; }
+.logo__mark { color: var(--color-accent); }
+.logo__mode {
+  margin-left: 0.5rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.15);
+  font-size: 0.7rem;
+  font-weight: 500;
+  vertical-align: middle;
+}
+
+.user-menu { position: relative; }
+.user-menu summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  list-style: none;
+}
+.user-menu summary::-webkit-details-marker { display: none; }
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-ink);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.user-menu ul {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  min-width: 10rem;
+  padding: 0.4rem;
+  background: #fff;
+  color: var(--color-ink);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.user-menu li a { display: block; padding: 0.4rem 0.7rem; border-radius: 0.4rem; }
+.user-menu li a:hover { background: var(--color-bg); }
+
+/* ---------- Navigation ---------- */
+.site-nav {
+  padding: 0.5rem 1rem;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-line);
+}
+.site-nav__links a {
+  display: block;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  text-align: center;
+  font-weight: 500;
+}
+.site-nav__links a:hover,
+.site-nav__links a[aria-current="page"] { background: var(--color-brand); color: #fff; }
+
+.toggle-btn {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.5rem;
+  background: var(--color-surface);
+  font-size: 0.85rem;
+  cursor: pointer;
+  user-select: none;
+}
+.toggle-btn:hover { border-color: var(--color-brand); }
+body:has(#collapse-left:checked) label[for="collapse-left"],
+body:has(#collapse-right:checked) label[for="collapse-right"] {
+  background: var(--color-brand);
+  border-color: var(--color-brand);
+  color: #fff;
+}
+body:has(#collapse-left:focus-visible) label[for="collapse-left"],
+body:has(#collapse-right:focus-visible) label[for="collapse-right"] {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* ---------- Sidebars ---------- */
+.sidebar { background: var(--color-surface); border-radius: var(--radius); box-shadow: var(--shadow); }
+.sidebar__inner { padding: 1rem; }
+.sidebar h2 {
+  margin: 0 0 0.6rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+}
+.sidebar li a { display: block; padding: 0.35rem 0.5rem; border-radius: 0.4rem; }
+.sidebar li a:hover { background: var(--color-bg); }
+.sidebar p { margin: 0; color: var(--color-muted); font-size: 0.9rem; }
+
+/* ---------- Main content + cards ---------- */
+.content h1 { margin: 0 0 1rem; font-size: 1.5rem; }
+
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.card__media {
+  min-height: 7rem;
+  background: linear-gradient(135deg, #3b5bdb, #7048e8);
+}
+.card:nth-child(3n + 2) .card__media { background: linear-gradient(135deg, #0c8599, #2f9e44); }
+.card:nth-child(3n) .card__media { background: linear-gradient(135deg, #e8590c, #c2255c); }
+.card__label { color: #fff; font-size: 1.25rem; font-weight: 700; letter-spacing: 0.04em; }
+.badge {
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: var(--color-ink);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.card__body { padding: 1rem; }
+.card__body h2 { margin: 0 0 0.4rem; font-size: 1.05rem; }
+.card__body p { margin: 0; color: var(--color-muted); font-size: 0.92rem; }
+.card__meta {
+  padding: 0.6rem 1rem;
+  border-top: 1px solid var(--color-line);
+  color: var(--color-muted);
+  font-size: 0.8rem;
+}
+
+/* ---------- Footer ---------- */
+.site-footer { padding: 1.5rem 1rem; background: var(--color-ink); color: #cfd5e4; }
+.site-footer h2 {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #fff;
+}
+.site-footer li a { display: inline-block; padding: 0.15rem 0; }
+.site-footer a:hover { color: #fff; text-decoration: underline; }
+.footer-legal {
+  margin: 0;
+  padding-top: 1rem;
+  border-top: 1px solid rgb(255 255 255 / 0.15);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 599.98px) {
+  .user-menu__name { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+
+/* ==========================================================================
+   PART 2 — LAYOUT (Flexbox only)
+   ========================================================================== */
+
+/* Collapse state, driven by the hidden checkboxes (no JavaScript) */
+body:has(#collapse-left:checked)  { --left-w: 0px; }
+body:has(#collapse-right:checked) { --right-w: 0px; }
+
+/* ---------- Page skeleton: header / nav / page / footer ---------- */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.site-header {
+  position: sticky;            /* stays at the top while scrolling */
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+}
+.logo { align-self: center; }
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem var(--gap);
+}
+.site-nav__links { display: flex; flex: 1 1 100%; flex-wrap: wrap; gap: 0.25rem; }
+.site-nav__links li { flex: 1 1 calc(50% - 0.25rem); }
+.site-nav__toggles { display: flex; gap: 0.5rem; margin-left: auto; }
+
+/* ---------- Three-column row (mobile: everything stacks) ---------- */
+.page {
+  flex: 1 0 auto;              /* pushes the footer to the bottom */
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+  padding: var(--gap);
+}
+.content {
+  order: -1;                   /* main content first on small screens */
+  flex: 1 1 100%;
+  min-width: 0;
+  container: content / inline-size;
+}
+.sidebar { flex: 1 1 100%; }
+
+/* ---------- Cards: reflow with the container, not the viewport ---------- */
+.cards { display: flex; flex-wrap: wrap; gap: var(--gap); }
+.card { flex: 1 1 100%; display: flex; flex-direction: column; }
+.card__body { flex: 1 1 auto; }                      /* meta bars line up at the bottom */
+.card__media { position: relative; display: flex; }
+.card__label { margin: auto; }                       /* margin:auto centers the label */
+.badge { position: absolute; top: 0.6rem; right: 0.6rem; }
+.card__meta { display: flex; justify-content: space-between; gap: 0.5rem; }
+
+@container content (min-width: 38rem) {
+  .card { flex: 0 0 calc((100% - var(--gap)) / 2); }
+}
+@container content (min-width: 60rem) {
+  .card { flex: 0 0 calc((100% - 2 * var(--gap)) / 3); }
+}
+
+/* ---------- Footer: three link columns ---------- */
+.site-footer { display: flex; flex-direction: column; gap: var(--gap); }
+.footer-col { flex: 1 1 0; }
+
+/* ---------- Tablet (600px+): sidebars sit side by side under main ---------- */
+@media (min-width: 600px) {
+  .site-nav__links { flex: 1 1 auto; }
+  .site-nav__links li { flex: 0 0 auto; }
+  .sidebar { flex: 1 1 14rem; }
+  .site-footer { flex-direction: row; flex-wrap: wrap; }
+  .footer-col { flex: 1 1 10rem; }
+  .footer-legal { flex: 0 0 100%; }
+}
+
+/* ---------- Laptop (900px+): classic three columns ---------- */
+@media (min-width: 900px) {
+  :root { --sidebar-w: 11rem; }
+
+  .page { flex-wrap: nowrap; }
+  .content {
+    order: 0;
+    flex: 1 1 0;
+    transition: margin 0.25s ease;
+  }
+  .sidebar {
+    overflow: hidden;
+    transition: flex-basis 0.25s ease, visibility 0.25s;
+  }
+  .sidebar__inner { min-width: var(--sidebar-w); }    /* no text reflow while collapsing */
+  .sidebar-left  { flex: 0 1 var(--left-w); }
+  .sidebar-right { flex: 0 1 var(--right-w); }
+
+  /* A 0-width item still leaves its gap behind: pull main into it */
+  body:has(#collapse-left:checked)  .sidebar-left  { visibility: hidden; }
+  body:has(#collapse-right:checked) .sidebar-right { visibility: hidden; }
+  body:has(#collapse-left:checked)  .content { margin-left:  calc(var(--gap) * -1); }
+  body:has(#collapse-right:checked) .content { margin-right: calc(var(--gap) * -1); }
+}
+
+/* ---------- Wide desktop (1200px+): roomier sidebars ---------- */
+@media (min-width: 1200px) {
+  :root { --sidebar-w: 15rem; }
+}
+
+/* ---------- Below 900px a collapsed sidebar is simply removed ---------- */
+@media (max-width: 899.98px) {
+  body:has(#collapse-left:checked)  .sidebar-left,
+  body:has(#collapse-right:checked) .sidebar-right { display: none; }
+}
