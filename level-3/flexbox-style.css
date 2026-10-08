@@ -1,10 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════════
-   Level 3 – Flexbox Version
-   Layout: Header | Nav | [Left Sidebar · Main · Right Sidebar] | Footer
-   Responsive: Desktop → Tablet (sidebars below, side-by-side) → Mobile (stack)
-   ═══════════════════════════════════════════════════════════════════ */
-
-/* ── Reset & custom properties ──────────────────────────────────── */
+/* Level 3 - Flexbox Layout */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -23,7 +17,7 @@
   --pad:          1.25rem 1.5rem;
 }
 
-/* ── Base typography & links ─────────────────────────────────────── */
+
 body {
   font-family: system-ui, -apple-system, sans-serif;
   color: var(--clr-text);
@@ -39,7 +33,7 @@ a:hover { text-decoration: underline; }
 
 ul { list-style: none; }
 
-/* ── Shared section chrome ───────────────────────────────────────── */
+
 .site-header {
   background: var(--clr-header);
   color: #fff;
@@ -83,28 +77,24 @@ ul { list-style: none; }
   font-size: .85rem;
 }
 
-/* ══════════════════════════════════════════════════════════════════
-   FLEXBOX LAYOUT
-   ══════════════════════════════════════════════════════════════════ */
-
-/* Full-page column */
+/* flexbox layout */
 body {
   display: flex;
   flex-direction: column;
 }
 
-/* Three-column row grows to fill remaining height */
+
 .content-wrapper {
   display: flex;
   flex: 1;
 }
 
-/* 20% – 60% – 20% column widths */
+
 .sidebar-left  { flex: 0 0 20%; }
-.main-content  { flex: 1; }          /* fills the middle ~60% */
+.main-content  { flex: 1; }
 .sidebar-right { flex: 0 0 20%; }
 
-/* ── Tablet ≤ 768 px: sidebars drop below main, side-by-side ─────── */
+/* tablet */
 @media (max-width: 768px) {
   .content-wrapper { flex-wrap: wrap; }
 
@@ -113,7 +103,7 @@ body {
   .sidebar-right { flex: 0 0 50%;  order: 3; border-left: 1px solid #e2e8f0; }
 }
 
-/* ── Mobile ≤ 480 px: single column stack ────────────────────────── */
+/* mobile */
 @media (max-width: 480px) {
   .sidebar-left,
   .sidebar-right,
