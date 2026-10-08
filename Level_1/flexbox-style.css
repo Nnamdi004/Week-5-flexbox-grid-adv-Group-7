@@ -1,0 +1,31 @@
+/* ===== Level 1: Flexbox layout =====
+   The body is a vertical flex container. Header and footer keep a fixed
+   height, and <main> grows to take whatever space is left. */
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header,
+footer {
+  height: 80px;
+  flex-shrink: 0; /* fixed height: never squashed */
+}
+
+main {
+  flex-grow: 1; /* expands to fill the available space */
+}
+
+/* ===== Mobile (stacked, smaller bars) ===== */
+@media (max-width: 600px) {
+  header,
+  footer {
+    height: 60px;
+  }
+
+  main {
+    padding: 1rem;
+  }
+}

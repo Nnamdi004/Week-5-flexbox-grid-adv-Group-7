@@ -1,0 +1,30 @@
+/* Shared cosmetic styles used by BOTH the Flexbox and Grid versions.
+   Only layout-specific rules live in flexbox-style.css / grid-style.css. */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+header,
+footer {
+  background: #2c3e50;
+  color: #fff;
+  /* centres the text inside the bars (not part of the page layout) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h1,
+p {
+  margin: 0;
+}
+
+main {
+  background: #ecf0f1;
+  padding: 1.5rem;
+}

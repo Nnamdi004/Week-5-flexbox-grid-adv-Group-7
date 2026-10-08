@@ -1,0 +1,28 @@
+/* ===== Level 1: Grid layout =====
+   The body is a grid with three rows: fixed header, flexible main
+   (1fr = all remaining space), fixed footer. */
+
+body {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 80px 1fr 80px;
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+}
+
+header { grid-area: header; }
+main   { grid-area: main; }
+footer { grid-area: footer; }
+
+/* ===== Mobile (stacked, smaller bars) ===== */
+@media (max-width: 600px) {
+  body {
+    grid-template-rows: 60px 1fr 60px;
+  }
+
+  main {
+    padding: 1rem;
+  }
+}
