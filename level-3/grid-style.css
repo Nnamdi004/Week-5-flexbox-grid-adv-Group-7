@@ -1,0 +1,144 @@
+/* ═══════════════════════════════════════════════════════════════════
+   Level 3 – CSS Grid Version
+   Layout: Header | Nav | [Left Sidebar · Main · Right Sidebar] | Footer
+   Responsive: Desktop → Tablet (sidebars below, side-by-side) → Mobile (stack)
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Reset & custom properties ──────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --clr-header:   #1a1a2e;
+  --clr-nav:      #16213e;
+  --clr-sidebar:  #f0f4f8;
+  --clr-main:     #ffffff;
+  --clr-footer:   #1a1a2e;
+  --clr-accent:   #0f3460;
+  --clr-text:     #2d3748;
+  --clr-muted:    #718096;
+  --pad:          1.25rem 1.5rem;
+}
+
+/* ── Base typography & links ─────────────────────────────────────── */
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  color: var(--clr-text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+h1 { font-size: 1.5rem; font-weight: 700; }
+h2 { font-size: 1rem;   font-weight: 600; margin-bottom: .75rem; color: var(--clr-accent); }
+
+a  { color: var(--clr-accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+ul { list-style: none; }
+
+/* ── Shared section chrome ───────────────────────────────────────── */
+.site-header {
+  background: var(--clr-header);
+  color: #fff;
+  padding: var(--pad);
+}
+.site-header p { font-size: .85rem; color: #a0aec0; margin-top: .25rem; }
+
+.site-nav {
+  background: var(--clr-nav);
+  padding: .75rem 1.5rem;
+}
+.site-nav ul { display: flex; gap: 1.5rem; }
+.site-nav a  { color: #cbd5e0; font-size: .9rem; }
+.site-nav a:hover { color: #fff; text-decoration: none; }
+
+.sidebar-left,
+.sidebar-right {
+  background: var(--clr-sidebar);
+  padding: var(--pad);
+  border-right: 1px solid #e2e8f0;
+}
+.sidebar-right { border-right: none; border-left: 1px solid #e2e8f0; }
+
+.sidebar-left li,
+.sidebar-right li { padding: .35rem 0; border-bottom: 1px solid #e2e8f0; }
+.sidebar-left li:last-child,
+.sidebar-right li:last-child { border-bottom: none; }
+
+.main-content {
+  background: var(--clr-main);
+  padding: var(--pad);
+}
+.main-content p { margin-bottom: 1rem; color: var(--clr-muted); }
+.main-content p:last-child { margin-bottom: 0; }
+
+.site-footer {
+  background: var(--clr-footer);
+  color: #a0aec0;
+  text-align: center;
+  padding: 1rem;
+  font-size: .85rem;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   CSS GRID LAYOUT
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Desktop: named grid areas, 20% – auto – 20% columns */
+body {
+  display: grid;
+  grid-template-columns: 20% 1fr 20%;
+  grid-template-rows: auto auto 1fr auto;
+  grid-template-areas:
+    "header  header  header"
+    "nav     nav     nav"
+    "left    main    right"
+    "footer  footer  footer";
+}
+
+/* Assign each element to its named area */
+.site-header   { grid-area: header; }
+.site-nav      { grid-area: nav;    }
+.sidebar-left  { grid-area: left;   }
+.main-content  { grid-area: main;   }
+.sidebar-right { grid-area: right;  }
+.site-footer   { grid-area: footer; }
+
+/* content-wrapper exists in HTML but is not needed for grid placement */
+.content-wrapper { display: contents; }
+
+/* ── Tablet ≤ 768 px: sidebars drop below main, side-by-side ─────── */
+@media (max-width: 768px) {
+  body {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "header  header"
+      "nav     nav"
+      "main    main"
+      "left    right"
+      "footer  footer";
+  }
+
+  .sidebar-left  { border-right: 1px solid #e2e8f0; border-left: none; }
+  .sidebar-right { border-left:  1px solid #e2e8f0; }
+}
+
+/* ── Mobile ≤ 480 px: single column stack ────────────────────────── */
+@media (max-width: 480px) {
+  body {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "nav"
+      "main"
+      "left"
+      "right"
+      "footer";
+  }
+
+  .sidebar-left  { border-right: none; border-bottom: 1px solid #e2e8f0; }
+  .sidebar-right { border-left:  none; border-top:    1px solid #e2e8f0; }
+}

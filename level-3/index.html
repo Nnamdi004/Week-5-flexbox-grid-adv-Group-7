@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Level 3 – Complex Layout</title>
+  <!--
+    Switch between layouts by changing the href:
+      flexbox-style.css  → Flexbox version
+      grid-style.css     → Grid version
+  -->
+  <link rel="stylesheet" href="flexbox-style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <h1>Level 3: Complex Layout</h1>
+    <p>Flexbox &amp; CSS Grid — Group 7</p>
+  </header>
+
+  <nav class="site-nav">
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Portfolio</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="content-wrapper">
+
+    <aside class="sidebar-left">
+      <h2>Left Sidebar</h2>
+      <ul>
+        <li><a href="#">Category 1</a></li>
+        <li><a href="#">Category 2</a></li>
+        <li><a href="#">Category 3</a></li>
+        <li><a href="#">Category 4</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <h2>Main Content</h2>
+      <p>
+        This is the primary content area. On desktop it occupies 60% of the
+        page width, flanked by two sidebars each at 20%.
+      </p>
+      <p>
+        Resize the browser window to see the responsive behaviour:
+        at tablet width the sidebars move below this column side-by-side,
+        and on mobile everything stacks into a single column.
+      </p>
+    </main>
+
+    <aside class="sidebar-right">
+      <h2>Right Sidebar</h2>
+      <ul>
+        <li><a href="#">Recent Post 1</a></li>
+        <li><a href="#">Recent Post 2</a></li>
+        <li><a href="#">Recent Post 3</a></li>
+        <li><a href="#">Recent Post 4</a></li>
+      </ul>
+    </aside>
+
+  </div>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 Group 7 &mdash; Mastering CSS Layouts</p>
+  </footer>
+
+</body>
+</html>
